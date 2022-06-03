@@ -9,10 +9,11 @@ import { useAsyncDataEffect } from '../utils/api';
 import Loading from './components/Loading';
 import SelectedTeam from './components/SelectedTeam';
 import TeamSelector from './components/TeamSelector';
+import { match } from 'react-router';
 
 const { useState } = React;
 
-const App = () => {
+const App: React.FunctionComponent<any> = () => {
   const [teams, setTeams] = useState();
 
   useAsyncDataEffect(() => getAllTeams(), {
@@ -37,9 +38,11 @@ const App = () => {
           </Route>
           <Route
             path="/team/:teamId"
-            children={({ match }) => (
-              <SelectedTeam match={match} teams={teams} />
-            )}
+            children={({
+              match,
+            }: {
+              match: match<{ teamId: string }>;
+            }) => <SelectedTeam match={match} teams={teams} />}
           />
         </Switch>
       </div>
